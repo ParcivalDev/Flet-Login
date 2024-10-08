@@ -1,0 +1,23 @@
+# Entorno virtual
+.venv/
+env/
+venv/
+
+# Archivos de compilación
+__pycache__/
+*.py[cod]
+
+# Archivos de configuración de IDEs
+.idea/
+.vscode/
+
+# Archivos de distribución
+*.egg-info/
+dist/
+build/
+
+# Archivos de configuración local
+*.env
+
+# Archivos de sistema
+Thumbs.db
