@@ -8,6 +8,7 @@ def main(page: ft.Page):
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
 
+    # Función para cambiar entre las vistas de login y registro
     def cambiar_vista(e):
         c.content = registro.contenedor if c.content == inicio.contenedor else inicio.contenedor
         c.update()
@@ -16,7 +17,7 @@ def main(page: ft.Page):
     registro = Registro(cambiar_vista)
 
     c = ft.AnimatedSwitcher(
-        inicio.contenedor,
+        inicio.contenedor, # Contenido inicial
         transition=ft.AnimatedSwitcherTransition.SCALE,
         duration=500,
         reverse_duration=100,

@@ -4,6 +4,7 @@ from base import BaseView
 
 class Login(BaseView):
     def __init__(self, on_register_click):
+        # Llama al constructor de BaseView
         super().__init__("Iniciar sesión", "¿No tienes cuenta?",
                          on_register_click, "Iniciar sesión")
 
@@ -23,13 +24,13 @@ class Login(BaseView):
             ft.TextField(
                 width=250,
                 height=40,
-                hint_text=hint,
+                hint_text=hint, # Texto de sugerencia
                 border=ft.InputBorder.UNDERLINE,
                 color=ft.colors.BLACK,
                 prefix_icon=icon,
                 password=password
             ),
-            padding=ft.padding.only(top=20),
+            padding=ft.padding.only(top=20), # Padding superior
             
         )
 
