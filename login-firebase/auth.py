@@ -51,3 +51,5 @@ class AuthService:
                 raise Exception(f"Error de autenticación: {error_message}")
         except Exception as e:
             raise Exception(f"Error inesperado: {str(e)}")
+
+    

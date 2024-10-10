@@ -67,3 +67,5 @@ class Login(BaseView):
         self.message.value = mensaje
         self.message.color = ft.colors.GREEN
         self.message.update()
+
+    

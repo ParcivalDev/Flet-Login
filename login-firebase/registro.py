@@ -1,18 +1,21 @@
 import flet as ft
 from base import BaseView
 
+
 class Registro(BaseView):
     def __init__(self, on_login_click, auth_service):
         self.message = ft.Text()  # Para mostrar mensajes de error o éxito
         super().__init__("Crear Cuenta", "¿Ya tienes cuenta?",
                          on_login_click, "Inicia sesión")
         self.auth_service = auth_service
-        
 
     def crear_campos(self):
-        self.email_field = self.crear_campo("Correo electrónico", ft.icons.MAIL)
-        self.password_field = self.crear_campo("Contraseña", ft.icons.PASSWORD, password=True)
-        self.confirm_password_field = self.crear_campo("Repite la contraseña", ft.icons.PASSWORD, password=True)
+        self.email_field = self.crear_campo(
+            "Correo electrónico", ft.icons.MAIL)
+        self.password_field = self.crear_campo(
+            "Contraseña", ft.icons.PASSWORD, password=True)
+        self.confirm_password_field = self.crear_campo(
+            "Repite la contraseña", ft.icons.PASSWORD, password=True)
         return ft.Column([
             self.email_field,
             self.password_field,
@@ -50,12 +53,25 @@ class Registro(BaseView):
             self.mostrar_error("Las contraseñas no coinciden")
             return
 
+        if not self.validar_email(email):
+            self.mostrar_error("Email inválido")
+            return
+
+        if len(password) < 6:
+            self.mostrar_error(
+                "La contraseña debe tener al menos 6 caracteres")
+            return
+
         try:
             if self.on_register_success:
                 self.on_register_success()
         except Exception as error:
             self.mostrar_error(f"Error de registro: {str(error)}")
-            
+
+
+    def validar_email(self, email):
+        # Implementa una validación de email más robusta
+        return '@' in email and '.' in email
 
     def mostrar_error(self, mensaje):
         self.message.value = mensaje
