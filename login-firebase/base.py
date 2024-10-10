@@ -1,19 +1,18 @@
 import flet as ft
 
-
 class BaseView:
     def __init__(self, title, switch_text, switch_action, texto):
-        self.title = title  # Título de la vista
-        self.switch_text = switch_text  # Texto para cambiar entre vistas
-        self.switch_action = switch_action  # Función para cambiar entre vistas
-        # Texto adicional (para "Iniciar sesión con" o "Registrarse con")
-        self.texto = texto
-        # Crea el contenedor principal de la vista
+        self.title = title
+        self.switch_text = switch_text # El texto para cambiar a otra vista. Ej. ¿No tienes cuenta?
+        self.switch_action = switch_action # La función a ejecutar al cambiar de vista
+        self.texto = texto # El texto del botón para cambiar de vista. Ej. Regístrate
         self.contenedor = self.crear_contenedor()
+        self.message = ft.Text() # Texto para mostrar mensajes al usuario
 
+    # Crea el contenedor principal de la vista
     def crear_contenedor(self):
         return ft.Container(
-            ft.Column([  # Columna principal que contiene todos los elementos de la vista
+            ft.Column([
                 self.crear_titulo(),
                 self.crear_campos(),
                 self.crear_boton_principal(),
@@ -28,13 +27,12 @@ class BaseView:
         )
 
     def crear_titulo(self):
-        return ft.Container(  # Contiene el título que se añade en login o registro
+        return ft.Container(
             ft.Text(self.title, width=320, size=30,
                     text_align=ft.TextAlign.CENTER, weight=ft.FontWeight.W_700),
             padding=ft.padding.only(top=20)
         )
 
-    # Métodos abstractos que deben ser implementados por las subclases
     def crear_campos(self):
         pass
 
@@ -43,40 +41,64 @@ class BaseView:
 
     def crear_opciones(self):
         return ft.Container(
-                ft.Row([
-                    ft.IconButton(icon=ft.icons.EMAIL, tooltip="Google",
-                                  icon_size=30, icon_color=ft.colors.RED_700),
-                    ft.IconButton(icon=ft.icons.FACEBOOK, tooltip="Facebook",
-                                  icon_size=30, icon_color=ft.colors.CYAN_800),
-                    ft.IconButton(icon=ft.icons.APPLE, tooltip="Apple",
-                                  icon_size=30, icon_color=ft.colors.BLACK)
-                ], alignment=ft.MainAxisAlignment.CENTER)
-            )
-        
+            ft.Row([
+                ft.IconButton(icon=ft.icons.EMAIL, tooltip="Google",
+                              icon_size=30, icon_color=ft.colors.RED_700),
+                ft.IconButton(icon=ft.icons.FACEBOOK, tooltip="Facebook",
+                              icon_size=30, icon_color=ft.colors.CYAN_800),
+                ft.IconButton(icon=ft.icons.APPLE, tooltip="Apple",
+                              icon_size=30, icon_color=ft.colors.BLACK)
+            ], alignment=ft.MainAxisAlignment.CENTER)
+        )
 
-    # Método para crear el botón de cambio de vista
     def crear_switch_view(self):
         return ft.Container(
             ft.Row([
                 ft.Text(self.switch_text),
-                # ft.TextButton(
-                #     content=ft.Text(
-                #         self.title,
-                #         color=ft.colors.BLUE,
-                #         weight=ft.FontWeight.W_600,
-                #         font_family= "ROBOTO"
-                #     ),
-                #     on_click=self.switch_action,
-                # )
                 ft.TextButton(text=self.texto, on_click=self.switch_action, style=ft.ButtonStyle(
                     color={
-                            ft.ControlState.DEFAULT: ft.colors.CYAN_700,
-                            ft.ControlState.HOVERED: ft.colors.CYAN_300,
-                            ft.ControlState.FOCUSED: ft.colors.GREEN,
-                            ft.ControlState.PRESSED: ft.colors.RED,
-                        },
+                        ft.ControlState.DEFAULT: ft.colors.CYAN_700,
+                        ft.ControlState.HOVERED: ft.colors.CYAN_300,
+                        ft.ControlState.FOCUSED: ft.colors.GREEN,
+                        ft.ControlState.PRESSED: ft.colors.RED,
+                    },
                     animation_duration=300
                 ))
-                
             ], alignment=ft.MainAxisAlignment.CENTER)
         )
+
+    def crear_campo(self, hint, icon, password=False):
+        return ft.Container(
+            ft.TextField(
+                width=250,
+                height=40,
+                hint_text=hint,
+                border=ft.InputBorder.UNDERLINE,
+                color=ft.colors.BLACK,
+                prefix_icon=icon,
+                password=password
+            ),
+            padding=ft.padding.only(top=20)
+        )
+
+    def crear_boton(self, text, on_click, width=230):
+        return ft.Container(
+            ft.ElevatedButton(
+                width=width,
+                text=text,
+                bgcolor=ft.colors.BLACK,
+                on_click=on_click
+            ),
+            padding=ft.padding.only(top=20)
+        )
+
+    def mostrar_mensaje(self, mensaje, es_error=True):
+        self.message.value = mensaje
+        self.message.color = ft.colors.RED if es_error else ft.colors.GREEN
+        self.message.update()
+
+    def mostrar_error(self, mensaje):
+        self.mostrar_mensaje(mensaje, es_error=True)
+
+    def mostrar_exito(self, mensaje):
+        self.mostrar_mensaje(mensaje, es_error=False)

@@ -1,13 +1,13 @@
 import flet as ft
 from base import BaseView
-
+import re
 
 class Registro(BaseView):
     def __init__(self, on_login_click, auth_service):
-        self.message = ft.Text()  # Para mostrar mensajes de error o éxito
         super().__init__("Crear Cuenta", "¿Ya tienes cuenta?",
                          on_login_click, "Inicia sesión")
         self.auth_service = auth_service
+        self.on_register_success = None
 
     def crear_campos(self):
         self.email_field = self.crear_campo(
@@ -20,29 +20,11 @@ class Registro(BaseView):
             self.email_field,
             self.password_field,
             self.confirm_password_field,
-            self.message  # Añadimos el campo de mensaje aquí
+            self.message
         ])
 
-    def crear_campo(self, hint, icon, password=False):
-        return ft.Container(
-            ft.TextField(
-                width=250,
-                height=40,
-                hint_text=hint,
-                border=ft.InputBorder.UNDERLINE,
-                color=ft.colors.BLACK,
-                prefix_icon=icon,
-                password=password
-            ),
-            padding=ft.padding.only(top=20)
-        )
-
     def crear_boton_principal(self):
-        return ft.Container(
-            ft.ElevatedButton(width=230, text="REGISTRARSE",
-                              bgcolor=ft.colors.BLACK, on_click=self.register_user),
-            padding=ft.padding.only(top=20)
-        )
+        return self.crear_boton("REGISTRARSE", self.register_user)
 
     def register_user(self, e):
         email = self.email_field.content.value
@@ -63,22 +45,14 @@ class Registro(BaseView):
             return
 
         try:
+            user = self.auth_service.register_user(email, password)
+            self.mostrar_exito(f"Usuario registrado exitosamente: {user.uid}")
             if self.on_register_success:
                 self.on_register_success()
         except Exception as error:
             self.mostrar_error(f"Error de registro: {str(error)}")
 
-
     def validar_email(self, email):
-        # Implementa una validación de email más robusta
-        return '@' in email and '.' in email
-
-    def mostrar_error(self, mensaje):
-        self.message.value = mensaje
-        self.message.color = ft.colors.RED
-        self.message.update()
-
-    def mostrar_exito(self, mensaje):
-        self.message.value = mensaje
-        self.message.color = ft.colors.GREEN
-        self.message.update()
+        # Implementamos una validación de email usando expresiones regulares
+        pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+        return re.match(pattern, email) is not None
