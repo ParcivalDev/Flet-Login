@@ -1,15 +1,18 @@
 import flet as ft
 
+
 class BaseView:
     def __init__(self, title, switch_text, switch_action, texto):
         self.title = title
-        self.switch_text = switch_text # El texto para cambiar a otra vista. Ej. ¿No tienes cuenta?
-        self.switch_action = switch_action # La función a ejecutar al cambiar de vista
-        self.texto = texto # El texto del botón para cambiar de vista. Ej. Regístrate
+        # El texto para cambiar a otra vista. Ej. ¿No tienes cuenta?
+        self.switch_text = switch_text
+        self.switch_action = switch_action  # La función a ejecutar al cambiar de vista
+        self.texto = texto  # El texto del botón para cambiar de vista. Ej. Regístrate
+        self.message = ft.Text()  # Texto para mostrar mensajes al usuario
         self.contenedor = self.crear_contenedor()
-        self.message = ft.Text() # Texto para mostrar mensajes al usuario
 
     # Crea el contenedor principal de la vista
+
     def crear_contenedor(self):
         return ft.Container(
             ft.Column([
