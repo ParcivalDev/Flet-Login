@@ -15,7 +15,7 @@ class Login(BaseView):
         self.email_field = self.crear_campo(
             "Correo electrónico", ft.icons.MAIL)
         self.password_field = self.crear_campo(
-            "Contraseña", ft.icons.PASSWORD, password=True)
+            "Contraseña", ft.icons.PASSWORD, password=True, can_reveal_password=True)
         self.forgot_password_button = ft.TextButton(
             text="Olvidé mi contraseña",
             on_click=self.send_password_reset_email
@@ -25,11 +25,6 @@ class Login(BaseView):
             self.email_field,
             self.password_field,
             self.forgot_password_button,
-            ft.Container(
-                ft.Checkbox(label="Recordar contraseña",
-                            check_color=ft.colors.BLUE),
-                padding=ft.padding.only(80)
-            ),
             self.message
         ], horizontal_alignment=ft.CrossAxisAlignment.CENTER)
 
@@ -39,7 +34,7 @@ class Login(BaseView):
         return self.crear_boton("INICIAR", self.login_user)
 
     #  Maneja el proceso de inicio de sesión del usuario
-    def login_user(self, e):
+    def login_user(self, _):
         try:
             user = self.auth_service.login_user_auth(
                 self.email_field.content.value, self.password_field.content.value)
@@ -49,7 +44,7 @@ class Login(BaseView):
             self.mostrar_error(str(error))
 
     # Abre una ventana para recuperar la contraseña
-    def send_password_reset_email(self, e):
+    def send_password_reset_email(self, _):
         email = self.email_field.content.value
         if not email:
             self.mostrar_error("Por favor, ingrese su correo electrónico")

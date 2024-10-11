@@ -70,7 +70,7 @@ class BaseView:
             ], alignment=ft.MainAxisAlignment.CENTER)
         )
 
-    def crear_campo(self, hint, icon, password=False):
+    def crear_campo(self, hint, icon, password=False, can_reveal_password=False):
         return ft.Container(
             ft.TextField(
                 width=250,
@@ -79,7 +79,8 @@ class BaseView:
                 border=ft.InputBorder.UNDERLINE,
                 color=ft.colors.BLACK,
                 prefix_icon=icon,
-                password=password
+                password=password,
+                can_reveal_password=can_reveal_password
             ),
             padding=ft.padding.only(top=20)
         )
