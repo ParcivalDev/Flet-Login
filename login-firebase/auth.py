@@ -90,7 +90,7 @@ class AuthService:
 
             return {  # Diccionario con el email y el nombre de usuario
                 'email': user.email,
-                'display_name': user_data.get('display_name') or user.display_name or ''
+                'display_name': user_data.get('display_name') or user.display_name or 'Usuario'
             }
         except Exception as e:
             raise Exception(

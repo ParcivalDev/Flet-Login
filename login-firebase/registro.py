@@ -1,13 +1,14 @@
 import flet as ft
 from base import BaseView
 import re  # Biblioteca para trabajar con expresiones regulares
+from auth import AuthService
 
 
 class Registro(BaseView):  # Clase Registro que hereda de BaseView
     def __init__(self, on_login_click, auth_service):
         super().__init__("Crear Cuenta", "¿Ya tienes cuenta?",
                          on_login_click, "Inicia sesión")
-        self.auth_service = auth_service
+        self.auth_service: AuthService = auth_service
         self.on_register_success = None
 
     def crear_campos(self):
@@ -27,11 +28,18 @@ class Registro(BaseView):  # Clase Registro que hereda de BaseView
     def crear_boton_principal(self):
         return self.crear_boton("REGISTRARSE", self.register_user)
 
+    # Método para obtener el valor de los campos de texto
+    # Espera un parámetro container que contiene un TextField
+    # email_field es un contenedor con un TextField
+
+    def get_field_value(self, field: ft.Container):
+        return field.content.value if isinstance(field.content, ft.TextField) else ""
+
     def register_user(self, _):
         # Obtenemos los valores ingresados por el usuario
-        email = self.email_field.content.value
-        password = self.password_field.content.value
-        confirm_password = self.confirm_password_field.content.value
+        email = self.get_field_value(self.email_field)
+        password = self.get_field_value(self.password_field)
+        confirm_password = self.get_field_value(self.confirm_password_field)
 
         if password != confirm_password:
             self.mostrar_error("Las contraseñas no coinciden")
@@ -49,7 +57,8 @@ class Registro(BaseView):  # Clase Registro que hereda de BaseView
         # Si todas las validaciones pasan, intentamos registrar al usuario
         try:
             user = self.auth_service.register_user(email, password)
-            user_id = user.get('uid') if isinstance(user, dict) else getattr(user, 'uid', 'ID no disponible')
+            user_id = user.get('uid') if isinstance(
+                user, dict) else getattr(user, 'uid', 'ID no disponible')
             self.mostrar_exito(f"Usuario registrado exitosamente: {user_id}")
             if self.on_register_success:  # Esto es verdadero porque contiene handle_register_success
                 self.on_register_success()  # Esto ejecuta handle_register_success

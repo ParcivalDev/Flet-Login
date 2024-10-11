@@ -26,6 +26,8 @@ def show_notification(page:ft.Page, message):
 def main(page: ft.Page):
     page.title = "Login y Registro con Firebase"
     page.bgcolor = ft.colors.BLACK
+    page.window.width = 500
+    page.window.center()  # Centrar la ventana en la pantalla
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
 
