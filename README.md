@@ -13,16 +13,17 @@ Este proyecto implementa un sistema de autenticación completo utilizando Fireba
 
 ### Pantalla de Inicio de Sesión
 
-[Imagen de la pantalla de inicio de sesión]
+![Imagen de la pantalla de inicio de sesión](https://github.com/ParcivalDev/Flet-Login/blob/main/login-firebase/images/login.png)
 
 ### Pantalla de Registro
 
-[Imagen de la pantalla de registro]
+![Imagen de la pantalla de registro](https://github.com/ParcivalDev/Flet-Login/blob/main/login-firebase/images/register.png)
 
 ### Pantalla de Perfil de Usuario
 
-[Imagen de la pantalla de perfil de usuario]
+![Imagen de la pantalla de perfil de usuario](https://github.com/ParcivalDev/Flet-Login/blob/main/login-firebase/images/perfil.png)
+![Imagen de la pantalla de perfil de usuario](https://github.com/ParcivalDev/Flet-Login/blob/main/login-firebase/images/perfil2.png)
 
 ### Página Web de Recuperación de Contraseña
 
-[Imagen de la página web de recuperación de contraseña]
+![Imagen de la página web de recuperación de contraseña](https://github.com/ParcivalDev/Flet-Login/blob/main/login-firebase/images/recu_pass.png)
