@@ -104,7 +104,6 @@ Donde:
 - `FIREBASE_API_KEY`: Es el valor de `apiKey` que copiaste al crear la aplicación web.
 - `FIREBASE_DATABASE_URL`: Es la URL de tu Realtime Database, visible en la sección de Realtime Database en la consola de Firebase.
 
->[!IMPORTANTE]
->
->Nunca subas el archivo `.env` o el archivo JSON de configuración de Firebase a un repositorio.
->Asegúrate de que el archivo `.env` esté incluido en tu `.gitignore`.
+> **IMPORTANTE**
+    > - Nunca subas el archivo `.env` o el archivo JSON de configuración de Firebase a un repositorio.
+    > - Asegúrate de que el archivo `.env` esté incluido en tu `.gitignore`.
