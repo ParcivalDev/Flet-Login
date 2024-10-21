@@ -13,7 +13,6 @@ class Login(BaseView):
         
 
     # Crea los campos de entrada para el inicio de sesión
-
     def crear_campos(self):
         self.email_field = self.crear_campo(
             "Correo electrónico", ft.icons.MAIL)
@@ -31,6 +30,7 @@ class Login(BaseView):
             self.message
         ], horizontal_alignment=ft.CrossAxisAlignment.CENTER)
 
+
     # Crea el botón principal de inicio de sesión
     # Devuelve un contenedor con el botón de inicio de sesión
     def crear_boton_principal(self):
@@ -44,6 +44,7 @@ class Login(BaseView):
     
     #  Maneja el proceso de inicio de sesión del usuario
     def login_user(self, _):
+        self.mostrar_error("")
         try:
             user = self.auth_service.login_user_auth(
                 self.get_field_value(self.email_field),

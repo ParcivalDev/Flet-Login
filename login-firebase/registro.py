@@ -28,10 +28,10 @@ class Registro(BaseView):  # Clase Registro que hereda de BaseView
     def crear_boton_principal(self):
         return self.crear_boton("REGISTRARSE", self.register_user)
 
+
     # Método para obtener el valor de los campos de texto
     # Espera un parámetro container que contiene un TextField
     # email_field es un contenedor con un TextField
-
     def get_field_value(self, field: ft.Container):
         return field.content.value if isinstance(field.content, ft.TextField) else ""
 

@@ -7,15 +7,20 @@ from dotenv import load_dotenv
 # Cargamos las variables de entorno desde el archivo .env
 load_dotenv()
 
+
 # Esta función inicializa la aplicación Firebase
 # config_path es la ruta al archivo de configuración de Firebase
-
-
 def initialize_firebase(config_path):
     cred = credentials.Certificate(config_path)
+    # Obtenemos la URL de la base de datos desde las variables de entorno
+    database_url = os.getenv('FIREBASE_DATABASE_URL')
+    
+    if not database_url:
+        raise ValueError("FIREBASE_DATABASE_URL no está configurada en las variables de entorno")
+
     # Inicializamos la aplicación Firebase con las credenciales y la URL de la base de datos
     firebase_admin.initialize_app(cred, {
-        'databaseURL': 'https://loginflet-29576-default-rtdb.firebaseio.com'
+        'databaseURL': database_url
     })
     return firebase_admin.get_app()  # La aplicación Firebase inicializada
 
@@ -27,8 +32,8 @@ class AuthService:
         self.api_key = os.getenv("FIREBASE_API_KEY")
         self.user_data = None  # Almacenará los datos del usuario autenticado
 
-    # Registra un nuevo usuario en Firebase
 
+    # Registra un nuevo usuario en Firebase
     def register_user(self, email, password):
         try:
             # Intentamos crear un nuevo usuario con el email y password proporcionados
@@ -70,8 +75,8 @@ class AuthService:
         except Exception as e:
             raise Exception(f"Error inesperado: {str(e)}")
 
-    # Genera un enlace para restablecer la contraseña
 
+    # Genera un enlace para restablecer la contraseña
     def send_password_reset_email(self, email):
         try:  # Genera el enlace para restablecer la contraseña
             reset_link = auth.generate_password_reset_link(
@@ -96,8 +101,8 @@ class AuthService:
             raise Exception(
                 f"Error al obtener el perfil del usuario: {str(e)}")
 
-    # Actualiza el nombre de usuario en Firebase Authentication
 
+    # Actualiza el nombre de usuario en Firebase Authentication
     def update_user_profile(self, uid, display_name=None):
         try:
             auth.update_user(uid, display_name=display_name)

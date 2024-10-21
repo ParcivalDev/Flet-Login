@@ -54,8 +54,8 @@ def main(page: ft.Page):
 
     # Función que se ejecuta cuando el usuario se registra
     def handle_register_success():
-        show_notification(page, "Registro exitoso.")
         cambiar_vista(inicio.contenedor)
+        show_notification(page, "Registro exitoso.")
 
 
     # Funciones para cambiar entre las vistas de inicio de sesión y registro
