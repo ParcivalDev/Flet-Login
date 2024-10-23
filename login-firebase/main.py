@@ -8,11 +8,22 @@ from auth import initialize_firebase, AuthService
 
 # Función para configurar Firebase
 def setup_firebase():
-    # Obtenemos la ruta del archivo de configuración de Firebase desde las variables de entorno
-    config_path = os.getenv('FIREBASE_CONFIG_PATH')
-    if not config_path:
-        raise ValueError(
-            "FIREBASE_CONFIG_PATH no está configurada en las variables de entorno")
+    # Obtener el directorio donde está el script actual
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # Obtener la ruta relativa del archivo de configuración desde las variables de entorno
+    config_relative_path = os.getenv('FIREBASE_CONFIG_PATH')
+    
+    if not config_relative_path:
+        raise ValueError("FIREBASE_CONFIG_PATH no está configurada en las variables de entorno")
+    
+    # Construir la ruta absoluta
+    config_path = os.path.join(base_dir, config_relative_path)
+    
+    # Verificar si el archivo existe
+    if not os.path.exists(config_path):
+        raise FileNotFoundError(f"No se encontró el archivo de configuración en: {config_path}")
+        
     firebase_app = initialize_firebase(config_path)
     return AuthService(firebase_app)
 
@@ -25,14 +36,15 @@ def show_notification(page:ft.Page, message):
 
 def main(page: ft.Page):
     page.title = "Login y Registro con Firebase"
-    page.bgcolor = ft.colors.BLACK
-    page.window.width = 500
+    page.bgcolor = ft.colors.AMBER
     page.window.center()  # Centrar la ventana en la pantalla
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
 
     auth_service = setup_firebase()
 
+    
+    
     # Función para cambiar entre diferentes vistas
     def cambiar_vista(vista):
         c.content = vista
